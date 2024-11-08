@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins } from "next/font/google";
 import MainContainer from "@/components/MainContainer";
+import SupabaseProviders from "@/providers/SupabaseProviders";
+import UserProvider from "@/providers/UserProvider";
+import ModalProvider from "@/providers/ModalProvider";
+import React from "react";
 
 const poppins = Poppins({
   weight: ["100", "900"],
@@ -29,7 +33,12 @@ export default function RootLayout({
       <html lang="en">
       <body className={`${poppins.variable} ${geistMono.variable}`}>
 
-      <MainContainer>{children}</MainContainer>
+      <SupabaseProviders>
+          <UserProvider>
+              <ModalProvider/>
+              <MainContainer>{children}</MainContainer>
+          </UserProvider>
+      </SupabaseProviders>
       </body>
       </html>
   );
