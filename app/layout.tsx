@@ -32,13 +32,13 @@ export default function RootLayout({
   return (
       <html lang="en">
       <body className={`${poppins.variable} ${geistMono.variable}`}>
-
-      <SupabaseProviders>
-          <UserProvider>
-              <ModalProvider/>
-              <MainContainer>{children}</MainContainer>
-          </UserProvider>
-      </SupabaseProviders>
+      {children}
+      {/*<SupabaseProviders>*/}
+      {/*    <UserProvider>*/}
+      {/*        <ModalProvider/>*/}
+      {/*        /!*<MainContainer>{children}</MainContainer>*!/*/}
+      {/*    </UserProvider>*/}
+      {/*</SupabaseProviders>*/}
       </body>
       </html>
   );

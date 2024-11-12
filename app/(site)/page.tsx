@@ -1,11 +1,11 @@
-import React from 'react';
+'use client'
+import React, {ReactNode} from 'react';
+import MainContainer from "@/components/MainContainer";
 
-const Home = () => {
+export default function Home(data:{component:ReactNode}) {
     return (
-        <div className='text-emerald-500'>
-            Spotify Home Page
+        <div>
+            <MainContainer children={data.component}/>
         </div>
     );
-};
-
-export default Home;
+}
