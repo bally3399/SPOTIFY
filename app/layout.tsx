@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Poppins } from "next/font/google";
-import MainContainer from "@/components/MainContainer";
-import SupabaseProviders from "@/providers/SupabaseProviders";
-import UserProvider from "@/providers/UserProvider";
-import ModalProvider from "@/providers/ModalProvider";
+// import MainContainer from "@/components/MainContainer";
+// import SupabaseProviders from "@/providers/SupabaseProviders";
+// import UserProvider from "@/providers/UserProvider";
+// import ModalProvider from "@/providers/ModalProvider";
 import React from "react";
 
 const poppins = Poppins({

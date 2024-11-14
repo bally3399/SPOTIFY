@@ -89,9 +89,9 @@ const LoginPage = () => {
 
                 <div className="flex justify-between mt-6 text-sm">
                     <Link href={"/otpPage"} className="text-blue-500">Forgot Password?</Link>
-                    <Link href={"/signup"} className="text-blue-500">Don't have an account? Sign up</Link>
-
+                    <Link href={"/signup"} className="text-blue-500">Don&apos;t have an account? Sign up</Link>
                 </div>
+
             </div>
         </div>
     );

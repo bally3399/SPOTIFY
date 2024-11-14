@@ -31,7 +31,7 @@ const SignupPage: React.FC = () => {
     });
 
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showConfirmPassword] = useState(false);
     const [errors, setErrors] = useState<Partial<FormState>>({});
     const [isLoading, setIsLoading] = useState(false);
 
@@ -94,9 +94,7 @@ const SignupPage: React.FC = () => {
         setShowPassword((prev) => !prev);
     };
 
-    const toggleConfirmPasswordVisibility = (): void => {
-        setShowConfirmPassword((prev) => !prev);
-    };
+   
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-[#000a2c] relative">

@@ -1,11 +1,18 @@
-'use client'
-import React, {ReactNode} from 'react';
-import MainContainer from "@/components/MainContainer";
+'use client';
 
-export default function Home(data:{component:ReactNode}) {
+import React from 'react';
+import MainContainer from '@/components/MainContainer';
+
+interface HomeProps {
+    children: React.ReactNode; 
+}
+
+interface PageProps extends HomeProps {}
+
+export default function Home({ children }: HomeProps) {
     return (
         <div>
-            <MainContainer children={data.component}/>
+            <MainContainer>{children}</MainContainer>
         </div>
     );
 }
