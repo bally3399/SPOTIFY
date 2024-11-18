@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { HiMenu } from 'react-icons/hi';
+import {HiMenu} from 'react-icons/hi';
 import Link from 'next/link';
-import { FaHome } from 'react-icons/fa';
+import {FaHome, FaSearch} from 'react-icons/fa';
 import { IoNotifications } from 'react-icons/io5';
 import { FaSpotify } from 'react-icons/fa6';
-import { TextField } from '@mui/material';
+import {TextField, InputAdornment} from '@mui/material';
 import { styled } from '@mui/system';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import OpenInBrowserIcon from '@mui/icons-material/OpenInBrowser';
 
 const SearchField = styled(TextField)({
     backgroundColor: '#1f1f1f',
@@ -44,8 +46,24 @@ const Navbar = () => {
                     variant="outlined"
                     placeholder="What do you want to play?"
                     size="small"
-                    sx={{width: '350px', color: '#ffffff'}}
+                    sx={{ width: '350px', color: '#ffffff' }}
+                    slotProps={{
+                        input: {
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <FaSearch style={{ color: 'white', fontSize: '18px' }} />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <OpenInBrowserIcon style={{ color: 'white', fontSize: '20px' }} />
+                                </InputAdornment>
+                            ),
+                        },
+
+                    }}
                 />
+
                 <Link href="/explore">
                     <button className="bg-white text-black px-4 py-2 rounded-3xl hover:bg-neutral-300">
                         Explore Premium
@@ -53,6 +71,7 @@ const Navbar = () => {
                 </Link>
                 <Link href="/install">
                     <button className="text-white px-4 py-2 rounded-3xl">
+                        <ArrowCircleDownIcon/>
                         Install App
                     </button>
                 </Link>

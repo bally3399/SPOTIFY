@@ -1,31 +1,79 @@
-import React from 'react';
-import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
+import {Track, Artist} from "@/components/ArtistInterface";
+
 
 const Playlist = () => {
-    // const [recentTracks, setRecentTracks] = useState([]);
-    // // const [error, setError] = useState(null);
+    const getCurrentTrack = (currentTrackURL: string) =>{
 
-    // useEffect(() => {
-    //     const fetchRecentlyPlayed = async () => {
-    //         const url = 'https://api.spotify.com/v1/me/player/recently-played?before=2';
-    //         const token = '62e4d1f79cmsh9e101e9a7fcb02ap10f3f2jsnce935fe4c389';
+    }
+    const [recentTracks, setRecentTracks] = useState<Track[]>([]);
+    const [toGetStarted, setToGetStarted] = useState<Artist | null>(null);
+    const [recommended, setRecommended] = useState<Track[]>([]);
 
-    //         try {
-    //             const response = await axios.get(url, {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                 },
-    //             });
+    const fetchRecentlyPlayed = async () => {
+        const token = process.env.NEXT_PUBLIC_SPOTIFY_ACCESS_TOKEN;
+        const url = 'https://api.spotify.com/v1/me/player/recently-played';
 
-    //             setRecentTracks(response.data.items);
-    //         } catch (err) {
+        try {
+            const response = await axios.get(url, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setRecentTracks(response.data.items.map((item: any) => item.track) || []);
+        } catch (err) {
+            console.error('Error fetching recently played tracks:', err);
+        }
+    };
 
-    //             // setError(err.response?.data || err.message);
-    //         }
-    //     };
+    const fetchToGetStarted = async () => {
+        const options = {
+            method: 'GET',
+            url: 'https://spotify23.p.rapidapi.com/artists/',
+            params: { ids: '2w9zwq3AktTeYYMuhMjju8' },
+            headers: {
+                'x-rapidapi-key': process.env.NEXT_PUBLIC_RAPIDAPI_KEY,
+                'x-rapidapi-host': 'spotify23.p.rapidapi.com',
+            },
+        };
 
-    //     fetchRecentlyPlayed();
-    // }, []);
+        try {
+            const response = await axios.request(options);
+            setToGetStarted(response.data.artists[0] || null);
+        } catch (error) {
+            console.error('Error fetching "To Get You Started":', error);
+        }
+    };
+
+    const fetchRecommended = async () => {
+        const options = {
+            method: 'GET',
+            url: 'https://spotify23.p.rapidapi.com/recommendations/',
+            params: {
+                limit: '20',
+                seed_tracks: '0c6xIDDpzE81m2q797ordA',
+                seed_artists: '4NHQUGzhtTLFvgF5SZesLK',
+                seed_genres: 'classical,country',
+            },
+            headers: {
+                'x-rapidapi-key': '62e4d1f79cmsh9e101e9a7fcb02ap10f3f2jsnce935fe4c389',
+                'x-rapidapi-host': 'spotify23.p.rapidapi.com',
+            },
+        };
+
+        try {
+            const response = await axios.request(options);
+            setRecommended(response.data.tracks || []);
+        } catch (error) {
+            console.error('Error fetching recommended tracks:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchRecentlyPlayed();
+        fetchToGetStarted();
+        fetchRecommended();
+    }, []);
 
     return (
         <div className="flex-col">
@@ -41,27 +89,48 @@ const Playlist = () => {
                 </Link>
             </div>
 
-            <div className="mt-16">
+            <div className="mt-24">
                 <h1 className="text-xl font-bold mb-4">Recently Played</h1>
-                {/* {error && <p className="text-red-500">Error: {error}</p>} */}
-                {/*<ul>*/}
-                {/*    {recentTracks.length > 0 ? (*/}
-                {/*        recentTracks.map((track, index) => (*/}
-                {/*            // <li key={index} className="mb-4">*/}
-                {/*            //     <p className="text-white">*/}
-                {/*            //         <strong>Track:</strong> {track|| 'Unknown'}*/}
-                {/*            //     </p>*/}
-                {/*            //     <p className="text-gray-400">*/}
-                {/*            //         <strong>Artist:</strong> {track.map(artist => artist.name).join(', ') || 'Unknown'}*/}
-                {/*            //     </p>*/}
-                {/*            // </li>*/}
-                {/*        ))*/}
-                    {/* ) : (
-                        <p className="text-gray-400">No recently played tracks available.</p> */}
-                    {/*)}*/}
-                {/*</ul>*/}
+                <ul>
+                    {recentTracks.length > 0 ? (
+                        recentTracks.map((track, index) => (
+                            <li key={index} className="mb-2">
+                                {track.name} by {track.artists.map(artist => artist.name).join(', ')}
+                            </li>
+                        ))
+                    ) : (
+                        <p>No recently played tracks available.</p>
+                    )}
+                </ul>
             </div>
-         </div>
+
+            <div className="mt-24">
+                <h1>To Get You Started</h1>
+                {toGetStarted ? (
+                    <div>
+                        <h2>{toGetStarted.name}</h2>
+                        <p>Followers: {toGetStarted.followers}</p>
+                    </div>
+                ) : (
+                    <p>Loading artist details...</p>
+                )}
+            </div>
+
+            <div className="mt-24">
+                <h1>Recommended for Today</h1>
+                <ul>
+                    {recommended.length > 0 ? (
+                        recommended.map((track, index) => (
+                            <li key={index} className="mb-2">
+                                {track.name} by {track.artists.map(artist => artist.name).join(', ')}
+                            </li>
+                        ))
+                    ) : (
+                        <p>No recommendations available.</p>
+                    )}
+                </ul>
+            </div>
+        </div>
     );
 };
 
