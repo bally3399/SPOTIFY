@@ -1,6 +1,5 @@
-import {ArtistRootObject} from "@/database.types";
+import {ArtistRootObject, BrowseStartData} from "@/database.types";
 
-const BASEURL =`https://spotify23.p.rapidapi.com/search/`
 
 export const getTracks = async (data: string)  => {
 
@@ -21,3 +20,16 @@ export const getTracks = async (data: string)  => {
         console.error(error);
     }
 }
+
+
+export const fetchArtist = {
+    method: 'GET',
+    url: 'https://spotify23.p.rapidapi.com/artists',
+    params: { ids: '2w9zwq3AktTeYYMuhMjju8' },
+    headers: {
+        'x-rapidapi-key': '41e5498422msha2c43afe3d68e7ep1a57e9jsn99ff47cc6194',
+        'x-rapidapi-host': 'spotify23.p.rapidapi.com'
+    }
+};
+
+

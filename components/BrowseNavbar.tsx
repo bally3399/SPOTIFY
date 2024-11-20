@@ -29,7 +29,7 @@ const SearchField = styled(TextField)({
     },
 });
 
-const Navbar = () => {
+const BrowseNavbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
@@ -38,11 +38,10 @@ const Navbar = () => {
                 <FaSpotify className="text-4xl" />
             </div>
 
-            <div className="hidden md:flex items-center space-x-8 text-white">
+            <div className="hidden md:flex items-center space-x-4 text-white">
                 <div className='flex bg-[#393939] justify-center items-center h-full rounded-2xl p-[10px] '>
                     <FaHome className='text-white'/>
                 </div>
-                <Link href={'/browse'}>
                 <SearchField
                     variant="outlined"
                     placeholder="What do you want to play?"
@@ -56,22 +55,17 @@ const Navbar = () => {
                                 </InputAdornment>
                             ),
                             endAdornment: (
-                                <Link href="/browse">
-                                        <OpenInBrowserIcon style={{ color: 'white', fontSize: '20px'  }} />
+                                <Link href={'/browse'}>
+                                    <InputAdornment position="end">
+                                        <OpenInBrowserIcon style={{ color: 'white', fontSize: '20px' }} />
+                                    </InputAdornment>
                                 </Link>
-
                             ),
                         },
 
                     }}
                 />
-                </Link>
 
-                <Link href="/explore">
-                    <button className="bg-white text-black px-4 py-2 rounded-3xl hover:bg-neutral-300">
-                        Explore Premium
-                    </button>
-                </Link>
                 <Link href="/install">
                     <button className="text-white px-4 py-2 rounded-3xl">
                         <ArrowCircleDownIcon/>
@@ -108,4 +102,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default BrowseNavbar;

@@ -5,7 +5,11 @@ import CreateIcon from "@mui/icons-material/Create";
 import Image from 'next/image'
 import styles from "@/components/styles.module.css";
 import {getTracks} from "@/API/searchTrack";
-import {ArtistRootObject} from "@/database.types";
+import {ArtistRootObject, ArtistRoot, Artist} from "@/database.types";
+import Link from "next/link";
+import axios from "axios";
+
+
 
 
 const MusicLibrary: React.FC = () => {
@@ -13,7 +17,33 @@ const MusicLibrary: React.FC = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [searchInput, setSearchInput] = useState<string>("");
-    const [searchResults, setSearchResults] = useState<ArtistRootObject[]>([]); // Explicitly typed as TransformedTrack[]
+    const [searchResults, setSearchResults] = useState<ArtistRootObject[]>([]);
+    const [artists, setArtist] = useState<Artist[]>([]);
+
+
+    useEffect(() => {
+        const options = {
+            method: 'GET',
+            url: 'https://api.spotify.com/v1/artists',
+            params: {
+                ids: '2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6',
+            },
+            headers: {
+                'Authorization': 'Bearer 1POdFZRZbvb...qqillRxMr2z',
+            },
+        };
+
+        const fetchArtistsData = async () => {
+            try {
+                const response = await axios.request<ArtistRoot>(options);
+                setArtist(response.data.artists);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchArtistsData();
+    }, []);
 
     const fetchTracks = async (): Promise<ArtistRootObject[]> => {
         if (!searchInput.trim()) return [];
@@ -89,11 +119,11 @@ const MusicLibrary: React.FC = () => {
                     <div className="mt-2 bg-neutral-700 shadow-md rounded-md p-2 w-64">
                         <div className="flex items-center gap-2 cursor-pointer hover:bg-neutral-600 p-2 rounded-md">
                             <CreateIcon/>
-                            <span>Create a new Playlist</span>
+                            <Link href={'/'}>Create a new Playlist</Link>
                         </div>
                         <div className="flex items-center gap-2 cursor-pointer hover:bg-neutral-600 p-2 rounded-md">
                             <FaFolder/>
-                            <span>Create a Playlist Folder</span>
+                            <Link href={'/'}>Create a Playlist Folder</Link>
                         </div>
                     </div>
                 )}
@@ -137,9 +167,30 @@ const MusicLibrary: React.FC = () => {
                     )}
                 </div>
             </div>
-
-        </div>
-    );
+            {/*<div>*/}
+            {/*    <h1>Artists</h1>*/}
+            {/*        {artists.length > 0 ? (*/}
+            {/*            <div>*/}
+            {/*                {artists.map((artist) => (*/}
+            {/*                    <div key={artist.id}>*/}
+            {/*                        <h2>{artist.name}</h2>*/}
+            {/*                        <p>Followers: {artist.followers.total}</p>*/}
+            {/*                        <p>Popularity: {artist.popularity}</p>*/}
+            {/*                        <p>Genres: {artist.genres.join(', ')}</p>*/}
+            {/*                        <img src={artist.images[0]?.url} alt={artist.name} width="200" />*/}
+            {/*                        <a href={artist.external_urls.spotify} target="_blank" rel="noopener noreferrer">*/}
+            {/*                            View on Spotify*/}
+            {/*                        </a>*/}
+            {/*                    </div>*/}
+            {/*                ))}*/}
+            {/*            </div>*/}
+            {/*        ) : (*/}
+            {/*            <p>Loading artists...</p>*/}
+            {/*        )}*/}
+            {/*    </div>*/}
+            </div>
+    )
 };
 
 export default MusicLibrary;
+
