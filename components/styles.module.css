@@ -4,13 +4,13 @@
 
 .grid{
     display: grid;
-    grid-template-columns:1fr 1fr;
-    gap: 20px;
+    grid-template-columns:2fr 2fr;
     margin-top: 30px;
+    overflow: hidden;
 }
 .inner{
     text-align: center;
-    padding: 20px;
+    padding: 10px;
 }
 .trackImage{
     width: 200px;

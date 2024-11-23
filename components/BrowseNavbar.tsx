@@ -34,11 +34,11 @@ const BrowseNavbar = () => {
 
     return (
         <div className="relative flex justify-between items-center shadow-md bg-black p-4">
-            <div className="flex items-center text-white space-x-4">
+            <div className="flex items-center text-white">
                 <FaSpotify className="text-4xl" />
             </div>
 
-            <div className="hidden md:flex items-center space-x-4 text-white">
+            <div className="hidden pr-64 md:flex items-center text-white">
                 <div className='flex bg-[#393939] justify-center items-center h-full rounded-2xl p-[10px] '>
                     <FaHome className='text-white'/>
                 </div>
@@ -67,14 +67,14 @@ const BrowseNavbar = () => {
                 />
 
                 <Link href="/install">
-                    <button className="text-white px-4 py-2 rounded-3xl">
+                    <button className="pr-10 text-white px-4 py-2 rounded-3xl">
                         <ArrowCircleDownIcon/>
                         Install App
                     </button>
                 </Link>
                 <IoNotifications/>
-                <Link href="/login">Login</Link>
-                <Link href="/signup">Signup</Link>
+                <Link href="/login" className='pl-10 gap-3'>Login</Link>
+                <Link href="/signup" className='pl-10'>Signup</Link>
             </div>
 
             <HiMenu

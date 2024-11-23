@@ -51,31 +51,42 @@ const Browse: React.FC = () => {
                         {section.sectionItems.items.map((item, itemIndex) => (
                             <div
                                 key={itemIndex}
-                                className="p-4 bg-gray-800 text-white rounded-lg shadow"
+                                className="p-4 relative text-white rounded-lg shadow transform transition-all overflow-hidden"
+                                style={{
+                                    backgroundColor:
+                                        item.content?.data?.data?.cardRepresentation?.backgroundColor?.hex ||
+                                        'transparent',
+                                }}
                             >
                                 <Image
                                     src={
-                                        item?.content?.data?.data?.cardRepresentation?.artwork?.sources?.[0]?.url || 'https://i.scdn.co/image/ab67fb8200005caf474a477debc822a3a45c5acb'
+                                        item?.content?.data?.data?.cardRepresentation?.artwork?.sources?.[0]?.url ||
+                                        'https://i.scdn.co/image/ab67fb8200005caf474a477debc822a3a45c5acb'
                                     }
                                     alt={
-                                        item?.content?.data?.data?.cardRepresentation?.title?.transformedLabel || 'No Title'
+                                        item?.content?.data?.data?.cardRepresentation?.title?.transformedLabel ||
+                                        'No Title'
                                     }
-                                    width={300}
-                                    height={300}
-                                    className="w-full rounded-md"
+                                    width={100}
+                                    height={100}
+                                    className="w-[120px] rounded-md overflow-hidden transform translate-x-[120px] translate-y-[60px] rotate-[20deg]"
+
                                 />
 
-                                <h2 className="text-lg font-semibold mt-2">
+                                <h2
+                                    className="text-lg font-semibold mt-2 p-2 rounded items-center top-[20]"
+
+                                >
                                     {item.content?.data?.data?.cardRepresentation?.title?.transformedLabel || 'No Title'}
                                 </h2>
                             </div>
                         ))}
                     </div>
-
                 </div>
             ))}
         </div>
     );
+
 };
 
 export default Browse;

@@ -102,7 +102,7 @@ const MusicLibrary: React.FC = () => {
     }, [searchInput]);
 
     return (
-        <div className="flex flex-col w-full md:w-[40%] lg:w-[20%] bg-[#121212] overflow-hidden text-white p-2 md:p-4">
+        <div className="flex flex-col overflow-auto h-[100vh] w-full md:w-[40%] lg:w-[20%] bg-[#121212] text-white p-2 md:p-4">
             <div className="flex flex-col mb-4">
                 <div className="flex items-center justify-between">
                     <FaBars size={20} onClick={() => setIsExpanded(!isExpanded)} className="cursor-pointer"/>
@@ -128,7 +128,7 @@ const MusicLibrary: React.FC = () => {
                     </div>
                 )}
             </div>
-            <div className="bg-gray-800 p-2 rounded-md flex-grow">
+            <div className="bg-gray-800 p-4 rounded-md flex-grow">
                 {!showSearch ? (
                     <FaSearch size={24} onClick={() => setShowSearch(true)}/>
                 ) : (
@@ -161,11 +161,15 @@ const MusicLibrary: React.FC = () => {
                                     height={100}
                                 />
                                 <p>{album.data.name}</p>
-                                <p>By {album.data.artists.items.map((artist) => artist.profile.name).join(", ")}</p> {/* Artist Names */}
-                            </div>
+                                <p>By {album.data.artists.items.map((artist) => artist.profile.name).join(", ")}</p>                            </div>
                         ))
                     )}
                 </div>
+                {/*<div>*/}
+                {/*    <h1>Create Your First Playlist</h1>*/}
+                {/*    <p>It is, we will help you</p>*/}
+                {/*    <button>Create Playlist</button>*/}
+                {/*</div>*/}
             </div>
             {/*<div>*/}
             {/*    <h1>Artists</h1>*/}
@@ -188,7 +192,8 @@ const MusicLibrary: React.FC = () => {
             {/*            <p>Loading artists...</p>*/}
             {/*        )}*/}
             {/*    </div>*/}
-            </div>
+
+        </div>
     )
 };
 
