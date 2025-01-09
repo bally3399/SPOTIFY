@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { BrowseStartData} from "@/database.types";
+import Link from 'next/link';
+import { BrowseStartData } from '@/database.types';
 
 const Browse: React.FC = () => {
     const [browseData, setBrowseData] = useState<BrowseStartData | null>(null);
@@ -48,45 +49,41 @@ const Browse: React.FC = () => {
                         </h2>
                     )}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {section.sectionItems.items.map((item, itemIndex) => (
-                            <div
-                                key={itemIndex}
-                                className="p-4 relative text-white rounded-lg shadow transform transition-all overflow-hidden"
-                                style={{
-                                    backgroundColor:
-                                        item.content?.data?.data?.cardRepresentation?.backgroundColor?.hex ||
-                                        'transparent',
-                                }}
-                            >
-                                <Image
-                                    src={
-                                        item?.content?.data?.data?.cardRepresentation?.artwork?.sources?.[0]?.url ||
-                                        'https://i.scdn.co/image/ab67fb8200005caf474a477debc822a3a45c5acb'
-                                    }
-                                    alt={
-                                        item?.content?.data?.data?.cardRepresentation?.title?.transformedLabel ||
-                                        'No Title'
-                                    }
-                                    width={100}
-                                    height={100}
-                                    className="w-[120px] rounded-md overflow-hidden transform translate-x-[120px] translate-y-[60px] rotate-[20deg]"
-
-                                />
-
-                                <h2
-                                    className="text-lg font-semibold mt-2 p-2 rounded items-center top-[20]"
-
-                                >
-                                    {item.content?.data?.data?.cardRepresentation?.title?.transformedLabel || 'No Title'}
-                                </h2>
-                            </div>
-                        ))}
+                        {section.sectionItems.items.map((item, itemIndex) => {
+                            const id =
+                                item.content?.data?.data?.cardRepresentation?.title?.transformedLabel || 'no-title';
+                            return (
+                                <Link key={itemIndex} href={'/album'} passHref>
+                                    <div
+                                        className="cursor-pointer p-4 relative text-white rounded-lg shadow transform transition-all overflow-hidden"
+                                        style={{
+                                            backgroundColor:
+                                                item.content?.data?.data?.cardRepresentation?.backgroundColor?.hex ||
+                                                'transparent',
+                                        }}
+                                    >
+                                        <Image
+                                            src={
+                                                item?.content?.data?.data?.cardRepresentation?.artwork?.sources?.[0]?.url ||
+                                                'https://i.scdn.co/image/ab67fb8200005caf474a477debc822a3a45c5acb'
+                                            }
+                                            alt={id}
+                                            width={100}
+                                            height={100}
+                                            className="w-[120px] rounded-md overflow-hidden transform translate-x-[120px] translate-y-[60px] rotate-[20deg]"
+                                        />
+                                        <h2 className="text-lg font-semibold mt-2 p-2 rounded items-center top-[20]">
+                                            {id}
+                                        </h2>
+                                    </div>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </div>
             ))}
         </div>
     );
-
 };
 
 export default Browse;

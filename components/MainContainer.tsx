@@ -23,7 +23,6 @@ const MainContainer : React.FC<MainContainerProps> = ({children}) => {
                 </div>
             </div>
             <div>{children}</div>
-
         </div>
 
     )

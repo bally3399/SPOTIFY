@@ -5,9 +5,9 @@ import CreateIcon from "@mui/icons-material/Create";
 import Image from 'next/image'
 import styles from "@/components/styles.module.css";
 import {getTracks} from "@/API/searchTrack";
-import {ArtistRootObject, ArtistRoot, Artist} from "@/database.types";
+import {ArtistRootObject} from "@/database.types";
 import Link from "next/link";
-import axios from "axios";
+// import axios from "axios";
 
 
 
@@ -18,32 +18,32 @@ const MusicLibrary: React.FC = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [searchInput, setSearchInput] = useState<string>("");
     const [searchResults, setSearchResults] = useState<ArtistRootObject[]>([]);
-    const [artists, setArtist] = useState<Artist[]>([]);
+    // const [artists, setArtist] = useState<Artist[]>([]);
 
 
-    useEffect(() => {
-        const options = {
-            method: 'GET',
-            url: 'https://api.spotify.com/v1/artists',
-            params: {
-                ids: '2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6',
-            },
-            headers: {
-                'Authorization': 'Bearer 1POdFZRZbvb...qqillRxMr2z',
-            },
-        };
-
-        const fetchArtistsData = async () => {
-            try {
-                const response = await axios.request<ArtistRoot>(options);
-                setArtist(response.data.artists);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchArtistsData();
-    }, []);
+    // useEffect(() => {
+    //     const options = {
+    //         method: 'GET',
+    //         url: 'https://api.spotify.com/v1/artists',
+    //         params: {
+    //             ids: '2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6',
+    //         },
+    //         headers: {
+    //             'Authorization': 'Bearer 1POdFZRZbvb...qqillRxMr2z',
+    //         },
+    //     };
+    //
+    //     const fetchArtistsData = async () => {
+    //         try {
+    //             const response = await axios.request<ArtistRoot>(options);
+    //             setArtist(response.data.artists);
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+    //
+    //     fetchArtistsData();
+    // }, []);
 
     const fetchTracks = async (): Promise<ArtistRootObject[]> => {
         if (!searchInput.trim()) return [];
@@ -133,7 +133,7 @@ const MusicLibrary: React.FC = () => {
                     <FaSearch size={24} onClick={() => setShowSearch(true)}/>
                 ) : (
                     <>
-                        <input
+                        <input className='p-4'
                             type="text"
                             placeholder="SearchTrack..."
                             value={searchInput}

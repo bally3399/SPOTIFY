@@ -14,7 +14,7 @@
 //                 (track: {
 //                     name: "",
 //                     url: "";
-//                     album: {
+//                     page: {
 //                         name: '';
 //                         images: [
 //                     {
@@ -26,8 +26,8 @@
 //                 return {
 //                     name: track.name,
 //                     url: track.url,
-//                     images: track.album.images[0].url,
-//                     albumName: track.album.name,
+//                     images: track.page.images[0].url,
+//                     albumName: track.page.name,
 //                 }
 //             }) || {});
 //             return response

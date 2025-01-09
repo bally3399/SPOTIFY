@@ -213,20 +213,20 @@ export interface ImagesItem {
     width: number;
 }
 
-export interface Album {
-    album_type: string;
-    artists: ArtistsItem[];
-    available_markets: string[];
-    external_urls: External_urls;
-    id: string;
-    images: ImagesItem[];
-    name: string;
-    release_date: string;
-    release_date_precision: string;
-    total_tracks: number;
-    type: string;
-    uri: string;
-}
+// export interface Album {
+//     album_type: string;
+//     artists: ArtistsItem[];
+//     available_markets: string[];
+//     external_urls: External_urls;
+//     id: string;
+//     images: ImagesItem[];
+//     name: string;
+//     release_date: string;
+//     release_date_precision: string;
+//     total_tracks: number;
+//     type: string;
+//     uri: string;
+// }
 
 export interface External_ids {
     isrc: string;
@@ -261,35 +261,143 @@ export interface SeedsItem {
 
 export interface RecommendationsRoot {
     tracks: TracksItem[];
-    seeds: SeedsItem[];
 }
 
+// export interface ExternalUrls {
+//     spotify: string;
+// }
 
-
-export interface Followers{
-    href: string;
-    total: number;
-}
-export interface Genres{
-    name: string;
-    1: string;
-    3: string;
+export interface ImageItem {
+    url: string;
+    width: number;
+    height: number;
 }
 
+// export interface Album {
+//     album_type: string;
+//     artists: ArtistsItem[];
+//     external_urls: ExternalUrls;
+//     id: string;
+//     images: ImageItem[];
+//     is_playable: boolean;
+//     name: string;
+//     release_date: string;
+//     release_date_precision: string;
+//     total_tracks: number;
+//     type: string;
+//     uri: string;
+// }
 
-export interface Artist{
-    external_urls: External_urls;
-    followers: Followers;
-    genres: Genres[];
+export interface Artist {
+    external_urls: ExternalUrls;
     id: string;
-    images: ImagesItem[];
     name: string;
-    popularity: number;
     type: string;
     uri: string;
 }
 
-export interface ArtistRoot{
-    artists: Artist[];
+export interface ExternalIds {
+    isrc: string;
 }
+
+export interface TracksItem {
+    album: Album;
+    artists: ArtistsItem[];
+    disc_number: number;
+    duration_ms: number;
+    explicit: number;
+    external_ids: ExternalIds;
+    external_urls: ExternalUrls;
+    id: string;
+    is_local: number;
+    is_playable: boolean;
+    name: string;
+    popularity: number;
+    preview_url: string;
+    track_number: number;
+    type: string;
+    uri: string;
+    linked_from?: LinkedFrom;
+}
+
+export interface LinkedFrom {
+    external_urls: ExternalUrls;
+    id: string;
+    type: string;
+    uri: string;
+}
+
+export interface Track {
+    album: Album;
+    artists: Artist[];
+    available_markets: string[];
+    external_urls: ExternalUrls;
+    id: string;
+    images: Image[];
+    name: string;
+    release_date: string;
+    release_date_precision: string;
+    total_tracks: number;
+    type: string;
+    uri: string;
+}
+
+export interface Album {
+    album_type: string;
+    artists: Artist[];
+    available_markets: string[];
+    external_urls: ExternalUrls;
+    id: string;
+    images: Image[];
+    name: string;
+    release_date: string;
+    release_date_precision: string;
+    total_tracks: number;
+    type: string;
+    uri: string;
+}
+
+
+export interface ExternalUrls {
+    spotify: string;
+}
+
+export interface Image {
+    height: number;
+    url: string;
+    width: number;
+}
+
+export interface Seed {
+    initialPoolSize: number;
+    afterFilteringSize: number;
+    afterRelinkingSize: number;
+    id: string;
+    type: string;
+    href: string | null;
+}
+
+export interface TrackData {
+    disc_number: number;
+    duration_ms: number;
+    explicit: boolean;
+    external_ids: ExternalIds;
+    external_urls: ExternalUrls;
+    id: string;
+    is_local: boolean;
+    name: string;
+    popularity: number;
+    preview_url: string;
+    track_number: number;
+    type: string;
+    uri: string;
+}
+
+
+
+export interface Response {
+    tracks: Track[];
+    seeds: Seed[];
+}
+
 
