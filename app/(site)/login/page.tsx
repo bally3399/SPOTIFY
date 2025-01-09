@@ -1,17 +1,12 @@
 'use client'
-import MusicPlayer from "@/components/MusicPlayer";
+
 import React from "react";
-import { TracksItem } from "@/database.types";
+import Login from "@/components/Login";
 
-interface LoginProps {
-    tracks: TracksItem[];
-}
-
-export default function login({ tracks }: LoginProps) {
+export default function login() {
     return (
         <div>
-            {/*<Login/>*/}
-            <MusicPlayer tracks={tracks}></MusicPlayer>
+            <Login/>
         </div>
     );
 }
