@@ -97,6 +97,7 @@ export interface RootObjectAlbumsItemsDataArtistsItemsProfile {
 }
 
 export interface RootObjectAlbumsItemsDataArtistsItems {
+    external_urls: ExternalURLs;
     uri: string;
     profile: RootObjectAlbumsItemsDataArtistsItemsProfile;
 }
@@ -120,6 +121,7 @@ export interface RootObjectAlbumsItemsDataDate {
 }
 
 export interface RootObjectAlbumsItemsData {
+    external_urls: ExternalURLs;
     uri: string;
     name: string;
     artists: RootObjectAlbumsItemsDataArtists;

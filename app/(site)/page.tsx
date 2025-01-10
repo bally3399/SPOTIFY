@@ -7,7 +7,6 @@ interface HomeProps {
     children: React.ReactNode; 
 }
 
-interface PageProps extends HomeProps {}
 
 export default function Home({ children }: HomeProps) {
     return (

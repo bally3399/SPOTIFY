@@ -7,7 +7,6 @@ import styles from "@/components/styles.module.css";
 import {getTracks} from "@/API/searchTrack";
 import {ArtistRootObject} from "@/database.types";
 import Link from "next/link";
-// import axios from "axios";
 
 
 
@@ -18,32 +17,6 @@ const MusicLibrary: React.FC = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [searchInput, setSearchInput] = useState<string>("");
     const [searchResults, setSearchResults] = useState<ArtistRootObject[]>([]);
-    // const [artists, setArtist] = useState<Artist[]>([]);
-
-
-    // useEffect(() => {
-    //     const options = {
-    //         method: 'GET',
-    //         url: 'https://api.spotify.com/v1/artists',
-    //         params: {
-    //             ids: '2CIMQHirSU0MQqyYHq0eOx,57dN52uHvrHOxijzpIgu3E,1vCWHaC5f2uS3yhpwWbIA6',
-    //         },
-    //         headers: {
-    //             'Authorization': 'Bearer 1POdFZRZbvb...qqillRxMr2z',
-    //         },
-    //     };
-    //
-    //     const fetchArtistsData = async () => {
-    //         try {
-    //             const response = await axios.request<ArtistRoot>(options);
-    //             setArtist(response.data.artists);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-    //
-    //     fetchArtistsData();
-    // }, []);
 
     const fetchTracks = async (): Promise<ArtistRootObject[]> => {
         if (!searchInput.trim()) return [];
@@ -134,15 +107,15 @@ const MusicLibrary: React.FC = () => {
                 ) : (
                     <>
                         <input className='p-4'
-                            type="text"
-                            placeholder="SearchTrack..."
-                            value={searchInput}
-                            onChange={(e) => {
-                                setSearchInput(e.target.value)
-                            }}
-                            onBlur={() => {
-                                if (!searchInput.trim()) setShowSearch(false);
-                            }}
+                               type="text"
+                               placeholder="SearchTrack..."
+                               value={searchInput}
+                               onChange={(e) => {
+                                   setSearchInput(e.target.value)
+                               }}
+                               onBlur={() => {
+                                   if (!searchInput.trim()) setShowSearch(false);
+                               }}
                         />
                     </>
                 )}
@@ -161,41 +134,24 @@ const MusicLibrary: React.FC = () => {
                                     height={100}
                                 />
                                 <p>{album.data.name}</p>
-                                <p>By {album.data.artists.items.map((artist) => artist.profile.name).join(", ")}</p>                            </div>
+                                <p>By {album.data.artists.items.map((artist) => artist.profile.name).join(", ")}</p>
+                                {/*<a*/}
+                                {/*    href={artists.external_urls.spotify}*/}
+                                {/*    target="_blank"*/}
+                                {/*    rel="noopener noreferrer"*/}
+                                {/*    className="text-blue-500 text-sm"*/}
+                                {/*>*/}
+                                {/*    Listen on Spotify*/}
+                                {/*</a>*/}
+                            </div>
                         ))
                     )}
                 </div>
-                {/*<div>*/}
-                {/*    <h1>Create Your First Playlist</h1>*/}
-                {/*    <p>It is, we will help you</p>*/}
-                {/*    <button>Create Playlist</button>*/}
-                {/*</div>*/}
+
             </div>
-            {/*<div>*/}
-            {/*    <h1>Artists</h1>*/}
-            {/*        {artists.length > 0 ? (*/}
-            {/*            <div>*/}
-            {/*                {artists.map((artist) => (*/}
-            {/*                    <div key={artist.id}>*/}
-            {/*                        <h2>{artist.name}</h2>*/}
-            {/*                        <p>Followers: {artist.followers.total}</p>*/}
-            {/*                        <p>Popularity: {artist.popularity}</p>*/}
-            {/*                        <p>Genres: {artist.genres.join(', ')}</p>*/}
-            {/*                        <img src={artist.images[0]?.url} alt={artist.name} width="200" />*/}
-            {/*                        <a href={artist.external_urls.spotify} target="_blank" rel="noopener noreferrer">*/}
-            {/*                            View on Spotify*/}
-            {/*                        </a>*/}
-            {/*                    </div>*/}
-            {/*                ))}*/}
-            {/*            </div>*/}
-            {/*        ) : (*/}
-            {/*            <p>Loading artists...</p>*/}
-            {/*        )}*/}
-            {/*    </div>*/}
 
         </div>
     )
 };
 
 export default MusicLibrary;
-

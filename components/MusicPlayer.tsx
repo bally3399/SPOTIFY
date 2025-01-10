@@ -1,86 +1,101 @@
-import React, { useState } from 'react';
-import { TracksItem } from "@/database.types";
+import React, {useEffect, useState} from "react";
+import {twMerge} from "tailwind-merge";
+import Navbar from "@/components/Navbar";
+import MusicLibrary from "@/components/Library";
+import Footer from "@/components/Footer";
+import {RecommendationsRoot, TracksItem} from "@/database.types";
+import axios from "axios";
+import Image from "next/image";
 
 interface MusicPlayerProps {
-    tracks: TracksItem[];
+    children: React.ReactNode
 }
+const MusicPlayer : React.FC<MusicPlayerProps> = ({children}) => {
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ tracks }) => {
-    const [currentTrack, setCurrentTrack] = useState<TracksItem | null>(
-        tracks && tracks.length > 0 ? tracks[0] : null
-    );
+    const fetchRecommended = async (): Promise<TracksItem[]> => {
+        const options = {
+            method: 'GET',
+            url: 'https://spotify23.p.rapidapi.com/recommendations',
+            params: {
+                limit: '100',
+                seed_tracks: '6HpMdN52TfJAwVbmkrFeBN',
+                seed_artists: '3tVQdUvClmAT7URs9V3rsp',
+                seed_genres: 'hiphop'
+            },
+            headers: {
+                'x-rapidapi-key': '41e5498422msha2c43afe3d68e7ep1a57e9jsn99ff47cc6194',
+                'x-rapidapi-host': 'spotify23.p.rapidapi.com'
+            }
+        };
 
-    const formatDuration = (ms: number): string => {
-        const minutes = Math.floor(ms / 60000);
-        const seconds = ((ms % 60000) / 1000).toFixed(0);
-        return `${minutes}:${seconds.padStart(2, "0")}`;
+        try {
+            const response = await axios.request<RecommendationsRoot>(options); // Specify Root as the response type
+            return response.data.tracks;
+        } catch (error) {
+            console.error('Error fetching recommended tracks:', error);
+            return [];
+        }
     };
 
-    const handleTrackSelect = (track: TracksItem): void => {
-        setCurrentTrack(track);
-    };
+    const [recommended, setRecommended] = useState<TracksItem[]>([]);
 
-    if (!currentTrack) {
-        return (
-            <div className="music-player bg-black text-white p-4 flex flex-col items-center">
-                <p className="text-gray-400">No tracks available to play.</p>
-            </div>
-        );
-    }
+    useEffect(() => {
+        const loadRecommendedTracks = async () => {
+            const tracks = await fetchRecommended();
+            setRecommended(tracks);
+        };
+        loadRecommendedTracks();
+    }, []);
+
+
 
     return (
-        <div className="music-player bg-black text-white p-4 flex flex-col items-center">
-            <div className="flex items-center space-x-4">
-                <img
-                    src={currentTrack.album.images[1]?.url || ""}
-                    alt={currentTrack.name || "Track"}
-                    className="w-16 h-16 rounded"
-                />
-                <div>
-                    <h3 className="text-lg font-bold">{currentTrack.name}</h3>
-                    <p className="text-sm">
-                        {currentTrack.artists.map((artist) => artist.name).join(", ")}
-                    </p>
+        <div className={twMerge('flex h-[100vh]  flex-col backdrop-blur-md bg-black/50')}>
+            <Navbar/>
+            <div className={'flex bg-[#0a0f17]'}>
+                <MusicLibrary/>
+                <div className={`overflow-auto h-[100vh] flex flex-col w-[80%]`}>
+                    <div>
+                        {recommended.length > 0 ? (
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {recommended.map((track, index) => (
+                                    <li key={index}
+                                        className="bg-black p-4 rounded-lg shadow-md flex flex-col items-center">
+                                        <Image
+                                            src={track.album.images[0]?.url}
+                                            alt={track.name}
+                                            className="w-full rounded-lg mb-4"
+                                            width={300}
+                                            height={300}
+                                        />
+                                        <div className="text-center">
+                                            <p className="font-bold mb-2">{track.name}</p>
+                                            <p className="text-gray-500 text-sm mb-2">
+                                                by {track.artists.map((artist) => artist.name).join(', ')}
+                                            </p>
+                                            <a
+                                                href={track.external_urls.spotify}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-500 text-sm"
+                                            >
+                                                Listen on Spotify
+                                            </a>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className="text-center text-gray-500">No recommendations available.</p>
+                        )}
+                    </div>
+
+                    <Footer/>
                 </div>
             </div>
-
-            <div className="flex items-center justify-center space-x-4 mt-4">
-                <button onClick={() => alert("Previous")}>&lt;</button>
-                <button
-                    className="px-4 py-2 bg-green-600 rounded"
-                    onClick={() => alert("Play/Pause")}
-                >
-                    Play
-                </button>
-                <button onClick={() => alert("Next")}>&gt;</button>
-            </div>
-
-            <div className="mt-4">
-                <p>Duration: {formatDuration(currentTrack.duration_ms)}</p>
-                {currentTrack.preview_url ? (
-                    <audio controls src={currentTrack.preview_url} className="w-full mt-2">
-                        Your browser does not support the audio element.
-                    </audio>
-                ) : (
-                    <p className="text-sm text-gray-400">No preview available</p>
-                )}
-            </div>
-
-            <div className="track-selector mt-4 w-full">
-                {tracks.map((track, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handleTrackSelect(track)}
-                        className={`block w-full text-left p-2 hover:bg-gray-700 ${
-                            track.id === currentTrack.id ? "bg-gray-800" : ""
-                        }`}
-                    >
-                        {track.name} - {track.artists.map((artist) => artist.name).join(", ")}
-                    </button>
-                ))}
-            </div>
+            <div>{children}</div>
         </div>
-    );
-};
 
-export default MusicPlayer;
+    )
+}
+export default MusicPlayer
